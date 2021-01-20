@@ -1,0 +1,50 @@
+Using django celery module
+
+START RABBITMQ SERVER FIRST
+run cmd :  C:\Program Files\RabbitMQ Server\rabbitmq_server-3.8.9\sbin\rabbitmq_server.bat
+
+setup requirements
+a. download and install Erlang and Rabbitmq latest version(rabbitmq is dependent on erlang virtual runtime)
+
+      then  START CELERY
+
+b. run  'celery -A dj_celery_rabbitmq worker' django venv environment (to start a celery server to rabbit mq connection)
+  
+      or 
+
+c. celery -A dj_celery_rabbitmq worker -l info (more info about django app 'tasks.py' files)
+      celery -A dj_celery_rabbitmq worker -l info --pool=solo
+
+      FOR DATABASE SCHEDULER ; DO THIS 
+
+d. execute database scheduler :- celery -A dj_celery_rabbitmq beat --l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+
+
+
+
+
+CREATEING CACHE TABLE (print the sql generations of the cache table)
+python manage.py createcachetable --dry-run
+
+ACTUAL TABLE CREATION
+python manage.py createcachetable 
+
+
+START FLOWER SERVER (use to monitor celery tasks activities)
+flower -A PROJECT-NAME-HERE --port=5555
+
+
+
+Celery coding steps
+1. install celery :- run "pip install celery" (will install latest version of celery)
+2. install django-celery-beat :- run "pip install django-celery-beat" (used for setting periodic tasks)
+3. install flower :- run "pip install flower" (used to monitor different celery executed tasks)
+
+create a celery.py file in the django root project folder (where settings is situated)
+create tasks.py file where in the app directory to want a task
+set necessary celery configurations on django root  project settings i.e CELERY_bla bla bla ( in that pattern, preceeded by celery )
+
+
+
+DJANGO CELERY RESULTS  app
+1. install celery results :- run "pip install django-celery-results"
